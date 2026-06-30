@@ -3,86 +3,164 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NCP Mechanical Portal</title>
+  <title>NCP Mechanical Pro Portal</title>
+  <meta name="theme-color" content="#0b4fad" />
+  <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand-card">
-        <img src="logo.jpg" class="logo" alt="NCP Mechanical LTD logo" />
-        <p>Site Management Portal</p>
+      <div class="brand">
+        <img src="logo.jpg" alt="NCP Mechanical LTD logo" />
+        <div>
+          <strong>NCP Mechanical</strong>
+          <span>Pro Portal</span>
+        </div>
       </div>
-      <nav class="nav-list" aria-label="Main navigation">
-        <button class="nav active" data-tab="dashboard">Dashboard</button>
-        <button class="nav" data-tab="variations">Variation Register</button>
-        <button class="nav" data-tab="qa">QA Tracker</button>
-        <button class="nav" data-tab="labour">Labour Tracker</button>
-        <button class="nav" data-tab="training">Training Matrix</button>
-        <button class="nav" data-tab="invoice">CIS Invoice</button>
-        <button class="nav" data-tab="briefing">Daily Briefing</button>
-        <button class="nav" data-tab="reports">PDF Reports</button>
-        <button class="nav" data-tab="settings">Project Details</button>
+      <nav>
+        <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+        <button class="nav-btn" data-section="briefing">Daily Start Briefing</button>
+        <button class="nav-btn" data-section="qa">QA Tracker</button>
+        <button class="nav-btn" data-section="variations">Variation Register</button>
+        <button class="nav-btn" data-section="labour">Labour Tracker</button>
+        <button class="nav-btn" data-section="admin">Admin</button>
       </nav>
-      <div class="side-footer">Data saves locally in this browser.</div>
+      <div class="sidebar-note">Tablet-ready signatures. Local storage enabled.</div>
     </aside>
 
     <main class="content">
       <header class="topbar">
-        <div><p class="eyebrow">NCP Mechanical LTD</p><h1 id="pageTitle">Dashboard</h1></div>
-        <div class="top-actions"><button class="ghost" onclick="exportAllData()">Export Backup</button><button class="primary" onclick="showTab('reports')">Create PDF</button></div>
+        <div>
+          <h1>NCP Mechanical Pro Portal</h1>
+          <p>Site management system for briefings, signatures, QA, variations and labour reports.</p>
+        </div>
+        <div class="top-actions">
+          <button class="ghost" id="installBtn" hidden>Install App</button>
+          <button class="primary" data-section-link="briefing">New Briefing</button>
+        </div>
       </header>
 
-      <section id="dashboard" class="tab active">
-        <div class="hero-panel"><div><p class="eyebrow">Project overview</p><h2 id="dashProject">Waddon Phase 2</h2><p id="dashAddress">Duppas Hill Road, Croydon, CR0 4BG</p></div><div class="date-pill" id="todayText"></div></div>
+      <section id="dashboard" class="page active">
         <div class="cards">
-          <div class="stat-card"><span>Total Variations</span><strong id="dashVariations">0</strong><small id="dashVariationValue">£0.00 total</small></div>
-          <div class="stat-card"><span>QA Items</span><strong id="dashQA">0</strong><small id="dashOpenQA">0 open/fail</small></div>
-          <div class="stat-card"><span>Labour Records</span><strong id="dashLabour">0</strong><small id="dashHours">0 hours</small></div>
-          <div class="stat-card"><span>Training Records</span><strong id="dashTraining">0</strong><small id="dashExpired">0 expired</small></div>
+          <article class="card kpi"><span>Operatives today</span><strong id="kpiOperatives">0</strong></article>
+          <article class="card kpi"><span>Signed briefings</span><strong id="kpiSigned">0</strong></article>
+          <article class="card kpi"><span>Open QA items</span><strong>0</strong></article>
+          <article class="card kpi"><span>Variation value</span><strong>£0.00</strong></article>
         </div>
-        <div class="panel"><div class="panel-head"><h3>Quick Actions</h3></div><div class="actions"><button onclick="showTab('variations')">Add Variation</button><button onclick="showTab('qa')">Add QA Inspection</button><button onclick="showTab('briefing')">Open Daily Briefing</button><button onclick="showTab('reports')">Daily / Monthly PDF</button></div></div>
-      </section>
-
-      <section id="variations" class="tab panel"><div class="panel-head"><h3>Variation Register</h3><button class="ghost" onclick="exportSectionPDF('variations')">Export Variations PDF</button></div><form id="variationForm" class="grid-form"><input name="ref" placeholder="Variation Ref" required><input name="date" type="date" required><input name="location" placeholder="Block / Level / Area"><input name="description" placeholder="Description of works" required><input name="cost" type="number" step="0.01" placeholder="Cost £" required><select name="status"><option>Pending</option><option>Submitted</option><option>Approved</option><option>Rejected</option></select><button class="primary">Add Variation</button></form><div class="table-wrap"><table id="variationTable"></table></div></section>
-      <section id="qa" class="tab panel"><div class="panel-head"><h3>QA Tracker</h3><button class="ghost" onclick="exportSectionPDF('qa')">Export QA PDF</button></div><form id="qaForm" class="grid-form"><input name="date" type="date" required><input name="area" placeholder="Block / Floor / Plot" required><select name="system"><option>Drainage</option><option>Ventilation</option><option>Sprinkler</option><option>Heating Pipework</option><option>BCWS Pipework</option></select><select name="status"><option>Pass</option><option>Fail</option><option>N/A</option><option>Open</option><option>Closed</option></select><input name="inspector" placeholder="Inspector"><input name="comments" placeholder="Comments"><button class="primary">Add QA Item</button></form><div class="table-wrap"><table id="qaTable"></table></div></section>
-      <section id="labour" class="tab panel"><div class="panel-head"><h3>Labour Tracker</h3><button class="ghost" onclick="exportSectionPDF('labour')">Export Labour PDF</button></div><form id="labourForm" class="grid-form"><input name="date" type="date" required><input name="name" placeholder="Operative Name" required><select name="trade"><option>Plumber</option><option>Duct Fitter</option><option>Sprinkler Fitter</option><option>Supervisor</option><option>Labourer</option></select><input name="hours" type="number" step="0.5" placeholder="Hours" required><input name="area" placeholder="Work Area"><button class="primary">Add Labour</button></form><div class="table-wrap"><table id="labourTable"></table></div></section>
-      <section id="training" class="tab panel"><div class="panel-head"><h3>Training Matrix</h3><button class="ghost" onclick="exportSectionPDF('training')">Export Training PDF</button></div><form id="trainingForm" class="grid-form"><input name="name" placeholder="Name" required><input name="cscs" placeholder="CSCS Number" required><input name="type" placeholder="CSCS Type"><input name="expiry" type="date" required><button class="primary">Add Training</button></form><div class="table-wrap"><table id="trainingTable"></table></div></section>
-      <section id="invoice" class="tab panel"><div class="panel-head"><h3>CIS Invoice Generator</h3><button class="ghost" onclick="exportInvoicePDF()">Export Invoice PDF</button></div><form id="invoiceForm" class="grid-form"><input id="invName" placeholder="Subcontractor Name" value="Marius Podiuc"><input id="invNo" placeholder="Invoice Number"><input id="invDate" type="date"><input id="gross" type="number" step="0.01" placeholder="Gross Income £"><input id="workDesc" placeholder="Works Description"><button class="primary" type="button" onclick="calculateInvoice()">Calculate</button></form><div class="report-card" id="invoiceResult">Enter gross amount and press Calculate.</div></section>
-
-      <section id="briefing" class="tab panel briefing-panel">
-        <div class="panel-head"><h3>Daily Start Briefing</h3><div class="top-actions"><button class="ghost" onclick="saveBriefing()">Save Briefing</button><button class="primary" onclick="exportBriefingPDF()">Export Briefing PDF</button></div></div>
-        <div class="name-manager"><input id="newOperativeName" placeholder="Add operative name"><button class="ghost" onclick="addOperativeName()">Add Name</button><button class="ghost" onclick="clearAllSignatures()">Clear All Signatures</button></div>
-
-        <div id="briefingSheet" class="briefing-sheet">
-          <div class="sheet-head"><img src="logo.jpg" alt="NCP Mechanical"><div><h2>DAILY START BRIEFING SHEET</h2><p>Form ref: NCP-HS-DSB-001 | Digital attendance and sign-off</p></div></div>
-          <table class="brief-info"><tbody>
-            <tr><th>Project</th><td><input id="bProject" value="Waddon Phase 2"></td><th>Date</th><td><input id="briefDate" type="date"></td></tr>
-            <tr><th>Site Address</th><td><input id="bAddress" value="Duppas Hill Road, Croydon, CR0 4BG"></td><th>Weather</th><td><input id="bWeather" placeholder="Dry / Rain / Wind"></td></tr>
-            <tr><th>Main Contractor</th><td><input id="bMainContractor" value="Formation Design & Build"></td><th>Start Time</th><td><input id="bStartTime" type="time"></td></tr>
-            <tr><th>Site Manager</th><td><input id="bSiteManager" placeholder="Site Manager"></td><th>Supervisor</th><td><input id="bSupervisor" value="Marius Podiuc"></td></tr>
-            <tr><th>First Aider</th><td><input id="bFirstAider" placeholder="First Aider"></td><th>Fire Marshal</th><td><input id="bFireMarshal" placeholder="Fire Marshal"></td></tr>
-            <tr><th>Emergency Point</th><td colspan="3"><input id="bEmergency" placeholder="Muster point / emergency arrangements"></td></tr>
-          </tbody></table>
-
-          <div class="sheet-section"><h3>Planned Activities</h3><textarea id="bActivities" rows="3" placeholder="Installing pipework, duct fitting, drainage pipework"></textarea></div>
-          <div class="sheet-section"><h3>Health & Safety Briefing</h3><div class="check-grid">
-            <label><input type="checkbox" id="cPpe" checked> PPE</label><label><input type="checkbox" id="cRams" checked> RAMS Reviewed</label><label><input type="checkbox" id="cManual"> Manual Handling</label><label><input type="checkbox" id="cHeight"> Working at Height</label><label><input type="checkbox" id="cHousekeeping"> Housekeeping</label><label><input type="checkbox" id="cPermit"> Permit to Work</label>
-          </div><textarea id="bKeyMessage" rows="3" placeholder="Toolbox talk / key message / hazards and controls"></textarea></div>
-          <div class="sheet-section"><h3>Deliveries / Plant / Permits</h3><textarea id="bPermits" rows="2" placeholder="Hot works, lifting, deliveries, permits"></textarea></div>
-
-          <div class="sheet-section"><h3>Operative Attendance and Digital Signatures</h3><div class="attendance-wrap"><table class="attendance-table"><thead><tr><th>No.</th><th>Operative Name</th><th>Company / Trade</th><th>Signature</th><th>Action</th></tr></thead><tbody id="attendanceRows"></tbody></table></div></div>
-          <div class="sign-note">By signing, each operative confirms the daily briefing was received and understood before starting work.</div>
-          <div class="manager-sign"><label>Site Manager Sign Off</label><input id="bManagerSignName" placeholder="Name"><label>Time</label><input id="bManagerSignTime" type="time"></div>
+        <div class="grid-2">
+          <article class="card">
+            <h2>Today’s briefing status</h2>
+            <p id="briefingStatus">No signed operatives yet.</p>
+            <button class="primary" data-section-link="briefing">Open Daily Briefing</button>
+          </article>
+          <article class="card">
+            <h2>Deployment note</h2>
+            <p>Use Cloudflare Pages, not Workers. Keep files in the repository root.</p>
+            <code>index.html · style.css · app.js · logo.jpg</code>
+          </article>
         </div>
       </section>
 
-      <section id="reports" class="tab panel"><div class="panel-head"><h3>Daily and Monthly PDF Export</h3></div><div class="report-grid"><div class="report-card"><h4>Daily Site Report</h4><p>Exports all records matching one selected date.</p><input id="dailyReportDate" type="date"><button class="primary" onclick="exportDailyPDF()">Export Daily PDF</button></div><div class="report-card"><h4>Monthly Site Report</h4><p>Exports all records matching one selected month.</p><input id="monthlyReportDate" type="month"><button class="primary" onclick="exportMonthlyPDF()">Export Monthly PDF</button></div></div></section>
-      <section id="settings" class="tab panel"><div class="panel-head"><h3>Project Details</h3></div><form id="projectForm" class="grid-form"><input id="projectName" placeholder="Project Name" value="Waddon Phase 2"><input id="projectAddress" placeholder="Project Address" value="Duppas Hill Road, Croydon, CR0 4BG"><input id="mainContractor" placeholder="Main Contractor" value="Formation Design & Build"><input id="clientName" placeholder="Client"><button class="primary" type="button" onclick="saveProject()">Save Details</button></form></section>
+      <section id="briefing" class="page">
+        <div class="page-head">
+          <div>
+            <h2>Daily Start Briefing</h2>
+            <p>Designed for tablet sign-on before work starts.</p>
+          </div>
+          <div class="button-row">
+            <button class="ghost" id="clearBriefingBtn">Clear form</button>
+            <button class="ghost" id="previewPdfBtn">Preview PDF Layout</button>
+            <button class="primary" id="dailyPdfBtn">Daily PDF Export</button>
+            <button class="primary dark" id="monthlyPdfBtn">Monthly PDF Export</button>
+          </div>
+        </div>
+
+        <form class="briefing-form" id="briefingForm">
+          <article class="form-panel">
+            <h3>Project information</h3>
+            <div class="form-grid">
+              <label>Date <input type="date" id="briefDate" /></label>
+              <label>Document No. <input id="docNo" placeholder="NCP-DSB-001" /></label>
+              <label>Project Name <input id="projectName" value="Waddon Phase 2" /></label>
+              <label>Main Contractor <input id="mainContractor" value="Formation Design & Build" /></label>
+              <label>Site Address <input id="siteAddress" value="Duppas Hill Road, Croydon, CR0 4BG" /></label>
+              <label>Site Manager <input id="siteManager" value="Marius Podiuc" /></label>
+            </div>
+          </article>
+
+          <article class="form-panel paper-match">
+            <h3>Briefing details</h3>
+            <div class="brief-grid">
+              <label>Planned Activities<textarea id="plannedActivities">Installing pipework, duct fitting, drainage pipework</textarea></label>
+              <label>Location / Area<textarea id="locationArea">Blocks / Floors / Risers</textarea></label>
+              <label>Health & Safety Briefing<textarea id="hsBriefing">PPE, RAMS reviewed, access routes, housekeeping, manual handling, permits.</textarea></label>
+              <label>Deliveries / Plant / Permits<textarea id="deliveries">Hot work permits where required.</textarea></label>
+            </div>
+          </article>
+
+          <article class="form-panel">
+            <div class="section-title-row">
+              <h3>Operative Attendance and Digital Signatures</h3>
+              <button type="button" class="primary small" id="addRowBtn">Add operative row</button>
+            </div>
+            <div class="table-wrap">
+              <table class="attendance-table" id="attendanceTable">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Operative Name</th>
+                    <th>Company</th>
+                    <th>Trade</th>
+                    <th>CSCS No.</th>
+                    <th>Time In</th>
+                    <th>Signature</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="attendanceBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </form>
+      </section>
+
+      <section id="qa" class="page"><article class="card"><h2>QA Tracker</h2><p>Phase 2 module placeholder. Ready for block, floor, plot, pass/fail/N/A, photos and PDF reports.</p></article></section>
+      <section id="variations" class="page"><article class="card"><h2>Variation Register</h2><p>Phase 2 module placeholder. Ready for labour, materials, plant, margin, VAT, status and PDF quotation.</p></article></section>
+      <section id="labour" class="page"><article class="card"><h2>Labour Tracker</h2><p>Phase 2 module placeholder. Ready for clock in/out, overtime, weekly and monthly export.</p></article></section>
+
+      <section id="admin" class="page">
+        <div class="page-head"><div><h2>Admin</h2><p>Manage dropdown names used in daily briefing.</p></div></div>
+        <article class="form-panel">
+          <h3>Operatives list</h3>
+          <div class="inline-form">
+            <input id="newOperativeName" placeholder="Operative name" />
+            <input id="newOperativeCompany" placeholder="Company" value="NCP Mechanical" />
+            <input id="newOperativeTrade" placeholder="Trade" />
+            <input id="newOperativeCscs" placeholder="CSCS No." />
+            <button class="primary" id="addOperativeBtn">Add</button>
+          </div>
+          <div id="operativeList" class="operative-list"></div>
+        </article>
+      </section>
     </main>
   </div>
+
+  <div class="signature-modal" id="signatureModal" hidden>
+    <div class="signature-card">
+      <div class="signature-head">
+        <div><h2 id="signatureTitle">Signature</h2><p>Use finger or S Pen. Sign clearly inside the box.</p></div>
+        <button class="ghost" id="closeSignatureBtn">Close</button>
+      </div>
+      <canvas id="signatureCanvas"></canvas>
+      <div class="button-row">
+        <button class="ghost" id="clearSignatureBtn">Clear</button>
+        <button class="primary" id="saveSignatureBtn">Save Signature</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="pdfDocument" class="pdf-document" aria-hidden="true"></div>
   <script src="app.js"></script>
 </body>
 </html>
