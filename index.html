@@ -150,12 +150,12 @@
     <div class="signature-card">
       <div class="signature-head">
         <div><h2 id="signatureTitle">Signature</h2><p>Use finger or S Pen. Sign clearly inside the box.</p></div>
-        <button class="ghost" id="closeSignatureBtn">Close</button>
+        <button type="button" class="ghost" id="closeSignatureBtn" onclick="window.closeSignatureModal && window.closeSignatureModal(event)">Close</button>
       </div>
       <canvas id="signatureCanvas"></canvas>
       <div class="button-row">
-        <button class="ghost" id="clearSignatureBtn">Clear</button>
-        <button class="primary" id="saveSignatureBtn">Save Signature</button>
+        <button type="button" class="ghost" id="clearSignatureBtn" onclick="window.clearSignatureCanvas && window.clearSignatureCanvas(event)">Clear</button>
+        <button type="button" class="primary" id="saveSignatureBtn" onclick="window.saveSignatureModal && window.saveSignatureModal(event)">Save Signature</button>
       </div>
     </div>
   </div>
