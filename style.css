@@ -6,3 +6,11 @@
 .signature-card button{position:relative;z-index:30;touch-action:manipulation;min-height:44px}
 .signature-modal{touch-action:none}
 .signature-head,.signature-card .button-row{position:relative;z-index:31}
+
+/* v1.2 definitive signature button fix */
+.signature-modal[hidden]{display:none!important;}
+.signature-modal{z-index:9999;}
+.signature-card{position:relative;z-index:10000;}
+#signatureCanvas{position:relative;z-index:1;}
+.signature-head,.signature-card .button-row{position:relative;z-index:10001;pointer-events:auto;}
+#closeSignatureBtn,#clearSignatureBtn,#saveSignatureBtn{pointer-events:auto;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;}
