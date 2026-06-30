@@ -14,3 +14,17 @@
 #signatureCanvas{position:relative;z-index:1;}
 .signature-head,.signature-card .button-row{position:relative;z-index:10001;pointer-events:auto;}
 #closeSignatureBtn,#clearSignatureBtn,#saveSignatureBtn{pointer-events:auto;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;}
+
+/* v1.3 module buttons and records */
+.top-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.quick-form{border-left:5px solid var(--blue,#0b4fad);margin-bottom:18px}
+.module-table{width:100%;border-collapse:collapse;font-size:14px;background:#fff}
+.module-table th{background:#0b4fad;color:#fff;text-align:left;padding:12px;border:1px solid #d7e0ec}
+.module-table td{padding:11px;border:1px solid #d7e0ec;vertical-align:top}
+.module-table tr:nth-child(even) td{background:#f8fbff}
+.status-badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#eef3f8;color:#182235;font-weight:700;font-size:12px}
+.status-badge.pass,.status-badge.approved{background:#e6f7ec;color:#126b31}
+.status-badge.fail,.status-badge.rejected{background:#fdeaea;color:#9d1c1c}
+.status-badge.open,.status-badge.submitted{background:#fff4d8;color:#8a5b00}
+.status-badge.na,.status-badge.draft{background:#eeeeee;color:#333}
+@media(max-width:900px){.top-actions .primary,.top-actions .ghost{width:100%}.module-table{font-size:12px}.module-table th,.module-table td{padding:8px}}

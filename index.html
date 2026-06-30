@@ -6,7 +6,7 @@
   <title>NCP Mechanical Pro Portal</title>
   <meta name="theme-color" content="#0b4fad" />
   
-  <link rel="stylesheet" href="style.css?v=1.2" />
+  <link rel="stylesheet" href="style.css?v=1.3" />
 </head>
 <body>
   <div class="app-shell">
@@ -38,6 +38,9 @@
         <div class="top-actions">
           <button class="ghost" id="installBtn" hidden>Install App</button>
           <button class="primary" data-section-link="briefing">New Briefing</button>
+          <button class="primary" id="newQaTopBtn">New QA</button>
+          <button class="primary" id="newVariationTopBtn">New Variation</button>
+          <button class="primary" id="newLabourTopBtn">New Labour</button>
         </div>
       </header>
 
@@ -125,9 +128,72 @@
         </form>
       </section>
 
-      <section id="qa" class="page"><article class="card"><h2>QA Tracker</h2><p>Phase 2 module placeholder. Ready for block, floor, plot, pass/fail/N/A, photos and PDF reports.</p></article></section>
-      <section id="variations" class="page"><article class="card"><h2>Variation Register</h2><p>Phase 2 module placeholder. Ready for labour, materials, plant, margin, VAT, status and PDF quotation.</p></article></section>
-      <section id="labour" class="page"><article class="card"><h2>Labour Tracker</h2><p>Phase 2 module placeholder. Ready for clock in/out, overtime, weekly and monthly export.</p></article></section>
+      <section id="qa" class="page">
+        <div class="page-head">
+          <div><h2>QA Tracker</h2><p>Create and manage QA inspections.</p></div>
+          <button class="primary" id="newQaBtn">New QA</button>
+        </div>
+        <article class="form-panel quick-form" id="qaFormPanel" hidden>
+          <h3>New QA Inspection</h3>
+          <div class="form-grid">
+            <label>Inspection Date <input type="date" id="qaDate" /></label>
+            <label>Block <input id="qaBlock" placeholder="Block A" /></label>
+            <label>Floor <input id="qaFloor" placeholder="Floor 1" /></label>
+            <label>Area / Plot <input id="qaArea" placeholder="Riser / Plot" /></label>
+            <label>Inspection Type <select id="qaType"><option>Drainage</option><option>Ventilation</option><option>Sprinkler</option><option>Heating pipework</option><option>BCWS pipework</option></select></label>
+            <label>Status <select id="qaStatus"><option>Open</option><option>Pass</option><option>Fail</option><option>N/A</option></select></label>
+          </div>
+          <label>Comments <textarea id="qaComments" placeholder="Notes, defects, actions required"></textarea></label>
+          <div class="button-row"><button class="ghost" id="cancelQaBtn" type="button">Cancel</button><button class="primary" id="saveQaBtn" type="button">Save QA</button></div>
+        </article>
+        <article class="card"><h3>QA Records</h3><div class="table-wrap"><table class="module-table"><thead><tr><th>Date</th><th>Block</th><th>Floor</th><th>Area</th><th>Type</th><th>Status</th><th>Comments</th></tr></thead><tbody id="qaRecordsBody"></tbody></table></div></article>
+      </section>
+
+      <section id="variations" class="page">
+        <div class="page-head">
+          <div><h2>Variation Register</h2><p>Create and track variation costs.</p></div>
+          <button class="primary" id="newVariationBtn">New Variation</button>
+        </div>
+        <article class="form-panel quick-form" id="variationFormPanel" hidden>
+          <h3>New Variation</h3>
+          <div class="form-grid">
+            <label>Date <input type="date" id="varDate" /></label>
+            <label>Variation No. <input id="varNo" placeholder="NCP-VAR-001" /></label>
+            <label>Project <input id="varProject" value="Waddon Phase 2" /></label>
+            <label>Status <select id="varStatus"><option>Draft</option><option>Submitted</option><option>Approved</option><option>Rejected</option></select></label>
+            <label>Labour £ <input id="varLabour" type="number" min="0" step="0.01" value="0" /></label>
+            <label>Materials £ <input id="varMaterials" type="number" min="0" step="0.01" value="0" /></label>
+            <label>Plant £ <input id="varPlant" type="number" min="0" step="0.01" value="0" /></label>
+            <label>Margin % <input id="varMargin" type="number" min="0" step="0.01" value="10" /></label>
+          </div>
+          <label>Description <textarea id="varDescription" placeholder="Description of additional works"></textarea></label>
+          <div class="button-row"><button class="ghost" id="cancelVariationBtn" type="button">Cancel</button><button class="primary" id="saveVariationBtn" type="button">Save Variation</button></div>
+        </article>
+        <article class="card"><h3>Variation Records</h3><div class="table-wrap"><table class="module-table"><thead><tr><th>Date</th><th>No.</th><th>Project</th><th>Description</th><th>Status</th><th>Total</th></tr></thead><tbody id="variationRecordsBody"></tbody></table></div></article>
+      </section>
+
+      <section id="labour" class="page">
+        <div class="page-head">
+          <div><h2>Labour Tracker</h2><p>Create labour entries and track hours.</p></div>
+          <button class="primary" id="newLabourBtn">New Labour Entry</button>
+        </div>
+        <article class="form-panel quick-form" id="labourFormPanel" hidden>
+          <h3>New Labour Entry</h3>
+          <div class="form-grid">
+            <label>Date <input type="date" id="labDate" /></label>
+            <label>Operative <select id="labOperative"></select></label>
+            <label>Company <input id="labCompany" value="NCP Mechanical" /></label>
+            <label>Trade <input id="labTrade" placeholder="Plumber" /></label>
+            <label>Time In <input type="time" id="labTimeIn" /></label>
+            <label>Time Out <input type="time" id="labTimeOut" /></label>
+            <label>Break Minutes <input id="labBreak" type="number" min="0" value="30" /></label>
+            <label>Area <input id="labArea" placeholder="Block / Floor / Area" /></label>
+          </div>
+          <label>Works Completed <textarea id="labNotes" placeholder="Work completed today"></textarea></label>
+          <div class="button-row"><button class="ghost" id="cancelLabourBtn" type="button">Cancel</button><button class="primary" id="saveLabourBtn" type="button">Save Labour</button></div>
+        </article>
+        <article class="card"><h3>Labour Records</h3><div class="table-wrap"><table class="module-table"><thead><tr><th>Date</th><th>Operative</th><th>Company</th><th>Trade</th><th>Time</th><th>Hours</th><th>Area</th></tr></thead><tbody id="labourRecordsBody"></tbody></table></div></article>
+      </section>
 
       <section id="admin" class="page">
         <div class="page-head"><div><h2>Admin</h2><p>Manage dropdown names used in daily briefing.</p></div></div>
@@ -161,6 +227,6 @@
   </div>
 
   <div id="pdfDocument" class="pdf-document" aria-hidden="true"></div>
-  <script src="app.js?v=1.2"></script>
+  <script src="app.js?v=1.3"></script>
 </body>
 </html>
